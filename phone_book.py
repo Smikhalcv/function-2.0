@@ -47,46 +47,35 @@ class Phone_Book():
         else:
             print('Укажите контакт, который необходимо добавить')
 
-    def del_contact(self, *contact): #Удаляет контакт если он записан в переменную
-        if contact:
-            for man in contact:
-                for k, v in self.phone_book.items():
-                    if man == v:
-                        key_del = k
-                if key_del:
-                    del self.phone_book[key_del]
-                else:
-                    print('Нет такого контакта.')
+    def del_tel_contact(self, tel): # Показывает контакт по номеру телефона
+        if tel:
+            for k, v in self.phone_book.items():
+                if tel == v.phone_number:
+                    del_key = k
+            del self.phone_book[del_key]
+        else:
+            print('Нет такого контакта.')
 
-    def del_name_contact(self, name): # Удаляет контакт по имени и фамилии контакта
+    def show_chosen_contact(self): # Показывает избранные контакты
+        chosen_id = []
+        for k, v in self.phone_book.items():
+            if v.chosen == True:
+                chosen_id.append(k)
+        for id in chosen_id:
+            print(self.phone_book[id])
+
+    def show_name_contact(self, name): # показывает контакт по имени и фамилии контакта
         while True:
-            key_del = [] # list key for delete
-            if len(name.split()) == 2: # must input name and last name for to delete
+            key_show = [] # list key for delete
+            if len(name.split()) == 2: # must input name and last name
                 first_name, last_name = name.split()
-                for k, v in self.phone_book.items(): # перебирает телефонную книгу и имя и фамилия есть в ней, записывает Id для удаления
+                for k, v in self.phone_book.items(): # перебирает телефонную книгу и имя и фамилия есть в ней, записывает Id
                     if last_name == v.last_name and first_name == v.name:
-                        key_del.append(k)
-                if key_del:
-                    if len(key_del) > 1: # Если есть несколько контактов с одинаковыми именами и фамилиями спрашивает что удалять
-                        print(f'Контактов с именем {first_name} {last_name} больше одного, укажите id {key_del}'
-                              f'или введите all, если '
-                              f'хотите все контакты с таким именем')
-                        id = input('- ')
-                        if id.lower() == 'all':
-                            for key in key_del:
-                                del self.phone_book[key]
-                            break
-                        if id in self.phone_book.keys():
-                            del self.phone_book[id]
-                            break
-                        else:
-                            print('Неверно указан id')
-                    if len(key_del) == 1: # удаляет если нет повторений
-                        del self.phone_book[key_del]
-                        break
-                    else:
-                        print(f'Contact {first_name} {last_name} не существует в телефоннной книге')
-                break
+                        key_show.append(k)
+                if key_show:
+                    for id in key_show:
+                        print(self.phone_book[id])
+                    break
             if len(name.split()) != 2:
                 print('Введите Имя и Фимилию контакта')
                 name = input()
