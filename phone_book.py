@@ -1,3 +1,5 @@
+import json
+
 class Contact:
     def __init__(self, name, last_name, phone_number, chosen=False, **kwargs):
         self.name = name
@@ -84,3 +86,24 @@ class Phone_Book():
         for contact in self.phone_book.values():
             print(contact)
 
+def adv_print(text, start='', max_line=None, in_file=None):
+    if max_line:
+        text = str(text)
+        data = []
+        for i in range((len(text) // max_line) + 1):
+            for e in range(len(text) + max_line):
+                if e == max_line * (i + 1):
+                    data.append(text[max_line * (i):max_line * (i + 1)])
+        text = '\n'.join(data)
+
+    if start:
+        text = str(text)
+        start = str(start + '\n')
+        text = start + text
+    print(text)
+    if in_file:
+        in_file = str(in_file)
+        text = text.split('\n')
+        with open((in_file + '.json'), 'w', encoding='utf-8') as file:
+            json.dump(text, file, ensure_ascii=False, indent=2)
+        print(f'Файл {in_file}.json создан.')
